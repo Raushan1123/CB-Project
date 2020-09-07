@@ -9,7 +9,7 @@ const NavBar =()=>{
         if(state){
             return[
                 <li><Link to="/profile">Profile</Link></li>,
-                <li><Link to="/create">Create Post</Link></li>,
+                <li><Link to="/createPost">Create Post</Link></li>,
                 <li><Link to="/myfollowingpost">My Following Posts</Link></li>,
                 <li>
                    <button className="btn #c62828 red darken-3"
@@ -33,7 +33,7 @@ const NavBar =()=>{
     return(
      <nav>
     <div className="nav-wrapper white">
-      <Link to={state?"/":"signin"} className="brand-logo">Navyagram</Link>
+      <Link to={state?"/":"/signin"} className="brand-logo">Navyagram</Link>
       <ul id="nav-mobile" className="right">
         {renderList()}
       </ul>

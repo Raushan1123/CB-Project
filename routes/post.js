@@ -29,7 +29,7 @@ router.get('/getsubpost',requireLogin,(req,res)=>{
     })
 })
 
-router.post('/createpost',requireLogin,(req,res)=>{
+router.post('/createPost',requireLogin,(req,res)=>{
     const {title,body,pic} = req.body
     if(!title || !body || !pic){
         return res.status(422).json({error:"Please add all the details"})
@@ -61,7 +61,7 @@ router.get('/mypost',requireLogin,(req,res)=>{
 })
 
 router.put('/like',requireLogin,(req,res)=>{
-    this.post.findByIdAndUpdate(req.body.postId,{
+    Post.findByIdAndUpdate(req.body.postId,{
         $push:{likes:req.user._id}
     },{
         new:true
@@ -76,7 +76,7 @@ router.put('/like',requireLogin,(req,res)=>{
 })
 
 router.put('/unlike',requireLogin,(req,res)=>{
-    this.post.findByIdAndUpdate(req.body.postId,{
+    Post.findByIdAndUpdate(req.body.postId,{
         $pull:{likes:req.user._id}
     },{
         new:true
@@ -95,7 +95,7 @@ router.put('/comment',requireLogin,(req,res)=>{
         text:req.body.text,
         postedBy:req.user._id
     }
-    this.post.findByIdAndUpdate(req.body.postId,{
+    Post.findByIdAndUpdate(req.body.postId,{
         $push:{comments:comment}
     },{
         new:true
@@ -119,8 +119,8 @@ router.delete('/deletepost/:postId',requireLogin,(req,res)=>{
         if(err || !post){
             return res.status(422).json({error:err})
         }
-        if(this.post.postedBy._id.toString()==req.user._id.toString()){
-            this.post.remove()
+        if(post._id.toString()==req.user._id.toString()){
+            post.remove()
             .then(result=>{
                 res.json(result)
             }).catch(err=>{

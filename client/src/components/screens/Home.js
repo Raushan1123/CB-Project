@@ -3,7 +3,6 @@ import {Link,useHistory }  from 'react-router-dom'
 import M from 'materialize-css'
 import { STATES } from 'mongoose'
 import { UserContext } from '../../App'
-import {Link} from 'react-router-dom'
 
 
 const Home = ()=>{
@@ -49,7 +48,7 @@ const Home = ()=>{
     }
 
     const unlikePost = (id)=>{
-        fetch('/like',{
+        fetch('/unlike',{
             method:"put",
             headers:{
                 "Content-Type":"application/json",
@@ -105,14 +104,14 @@ const Home = ()=>{
             console.log(err)
         }) 
     }
-    const deletePost = (postid)=>{
-        fetch('/deletepost/${postid}',{
+    const deletePost = (postId)=>{
+        fetch('/deletepost/${postId}',{
             method:"delete",
             headers:{
                 Authorization:"Bearer "+localStorage.getItem("jwt")
             }
         }).then(res=>res.json())
-        then(result=>{
+        .then(result=>{
             console.log(result)
             const newData = data.filter(item=>{
                 return item._id !== result._id
@@ -127,15 +126,15 @@ const Home = ()=>{
                    return(
                     <div className="card home-card" key={item._id}>
                     
-                    <h5 style={{padding:"5px"}}><Link to={item.postedBy._id!== state._id?"/profile/"+item.postedBy._id : "/profile"}>{item.postedBy.name}</Link>{item.postedBy._id==state._id} 
+                    <h5 style={{padding:"5px"}}><Link to={item._id!== state._id?"/profile/"+item._id : "/profile"}>{item.name}</Link>{item._id==state._id} 
                     <i className="material-icons" style={{float:"right"}}
                     onClick={()=>{deletePost(item._id)}}>
                         delete
                     </i> </h5>
                     <div className="card-image">
                     <img style={{width:"100%",height:"350px"}}
-                    src={item.photo}
-                    //   src={require("./images/pic-1.jpg")}
+                    //src={item.pic}
+                      src={require("./images/pic-1.jpg")}
                       alt="Profile img"/>
                     </div>
                     <div className="card-content">
@@ -160,7 +159,7 @@ const Home = ()=>{
                    {
                        item.comments.map(record=>{
                            return(
-                           <h6 key={record._id}><span style={{fontWeight:"500"}}>{record.postedBy.name}</span>{record.text}</h6>
+                           <h6 key={record._id}><span style={{fontWeight:"500"}}>{record.name}</span>{record.text}</h6>
                            )
                        })
                    }

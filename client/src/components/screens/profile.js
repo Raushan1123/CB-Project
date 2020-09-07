@@ -47,7 +47,7 @@ const Profile = ()=>{
                 {
                     mypics.map(item=>{
                         return(
-                            <img key={item._id} className="item" src={item.photo} alt={item.title}/>
+                            <img key={item._id} className="item" src={require(item.photo)} alt={item.title}/>
                         )
                     })
 //                 <img className="item" alt="Profile img" src={require("./images/pic-2.jpg")}/>

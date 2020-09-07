@@ -3,7 +3,6 @@ import {Link,useHistory }  from 'react-router-dom'
 import M from 'materialize-css'
 import { STATES } from 'mongoose'
 import { UserContext } from '../../App'
-import {Link} from 'react-router-dom'
 
 
 const Home = ()=>{
@@ -49,7 +48,7 @@ const Home = ()=>{
     }
 
     const unlikePost = (id)=>{
-        fetch('/like',{
+        fetch('/unlike',{
             method:"put",
             headers:{
                 "Content-Type":"application/json",
@@ -90,7 +89,7 @@ const Home = ()=>{
         })
         .then(res=>res.json())
         .then(result=>{
-            // console.log(result)
+            console.log(result)
             const newData = data.map(item=>{
                 if(item._id==result._id){
                     return result
@@ -112,7 +111,7 @@ const Home = ()=>{
                 Authorization:"Bearer "+localStorage.getItem("jwt")
             }
         }).then(res=>res.json())
-        then(result=>{
+        .then(result=>{
             console.log(result)
             const newData = data.filter(item=>{
                 return item._id !== result._id
@@ -160,7 +159,7 @@ const Home = ()=>{
                    {
                        item.comments.map(record=>{
                            return(
-                           <h6 key={record._id}><span style={{fontWeight:"500"}}>{record.postedBy.name}</span>{record.text}</h6>
+                           <h6 key={record._id}><span style={{fontWeight:"500"}}>{record.name}</span>{record.text}</h6>
                            )
                        })
                    }

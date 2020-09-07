@@ -8,8 +8,37 @@ const CreatePost = ()=>{
     const [body,setBody] = useState("")
     const [image,setImage] = useState("")
     const [url,setUrl] = useState("")
+    useEffect(()=>{
+        if(url){
+         fetch("/createPost",{
+             method:"post",
+             headers:{
+                 "Content-Type":"application/json",
+                 "Authorization":"Bearer "+localStorage.getItem("jwt")
+             },
+             body:JSON.stringify({
+                 title,
+                 body,
+                 pic:url
+             })
+         }).then(res=>res.json())
+         .then(data=>{
+     
+            if(data.error){
+               M.toast({html: data.error,classes:"#c62828 red darken-3"})
+            }
+            else{
+                M.toast({html:"Created post Successfully",classes:"#43a047 green darken-1"})
+                history.push('/')
+            }
+         }).catch(err=>{
+             console.log(err)
+         })
+     }
+     },[url])
 
-    const postDetails = ()=>{
+
+ const postDetails = ()=>{
     const data = new FormData()
     data.append("file",image)
     data.append("upload_preset","insta-clone")
@@ -26,32 +55,7 @@ const CreatePost = ()=>{
     .catch(err=>{
         console.log(err)
     })
-    fetch("/createpost",{
-        method:"post",
-       // body:data,
-        headers:{
-            "content-Type":"application/json",
-            'Accept': 'application/json',
-            'Authorization': 'Bearer '+localStorage.getItem('jwt')
-        },
-        body:JSON.stringify({
-        title,
-        body,
-        pic:url
-    })
-    }).then(res=>res.json())
-    .then(data=>{
-        console.log(data)
-        if(data.error){
-            M.toast({html: 'data.error',classes:"#c62828 red-darken-3"})
-        }
-        else{
-            M.toast({html:'Posted Successfully',classes:"#43a047 green darken-1"})
-            history.push('/')
-        }
-    }).catch(err=>{
-        console.log(err)
-    })
+   
 }
     return(
         <div className="card input-field" 

@@ -1,12 +1,15 @@
 import React,{useEffect,useState, useContext} from 'react'
 import { UserContext } from '../../App'
+import {useParams} from 'react-router-dom'
 
 
 const Profile = ()=>{
-    const [mypics,setPics] = useState([])
+    const [userProfile,setProfile] = useState(null)
     const {state,dispatch} = useContext(UserContext)
+    const {userId} = useParams()
+
     useEffect(()=>{
-        fetch('/mypost',{
+        fetch('/user/${userId}',{
             headers:{
                 "Authorization":"Bearer "+localStorage.getItem("jwt")
             }
@@ -14,13 +17,15 @@ const Profile = ()=>{
             .then(res=>res.json())
             .then(result=>{
                 console.log(result)
-                setPics(result.mypost)
+                setProfile(result)
             })
       
     },[])
     return(
-        
-        <div style={{maxWidth:"950px",margin:"0px auto"}}>
+        <>
+        {
+            userProfile?
+            <div style={{maxWidth:"950px",margin:"0px auto"}}>
             <div style={{
 
                 display:"flex",
@@ -34,9 +39,10 @@ const Profile = ()=>{
                  alt="Profile img"/>
                 </div>
                 <div>
-        <h4>{state?state.name:"loading"}</h4>
+                    <h4>{userProfile.user.name}</h4>
+                    <h5>{userProfile.user.email}</h5>
                 <div style={{display:"flex",justifyContent:"space-between",width:"108%"}}>
-                    <h6>40 Posts</h6>
+                    <h6>{userProfile.posts.length} posts</h6>
                     <h6>40 followers</h6>
                     <h6>40 following</h6>
                 </div>
@@ -44,7 +50,7 @@ const Profile = ()=>{
             </div>
             <div className="gallery">
                 {
-                    mypics.map(item=>{
+                    userProfile.posts.map(item=>{
                         return(
                             <img key={item._id} className="item" src={item.photo} alt={item.title}/>
                         )
@@ -59,6 +65,11 @@ const Profile = ()=>{
                 }
                 </div>     
         </div>
+
+            :<h2>loading...!</h2>
+        }
+        
+        </>
         )
 }
 

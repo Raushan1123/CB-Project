@@ -37,7 +37,7 @@ const CreatePost = ()=>{
         body:JSON.stringify({
         title,
         body,
-        pic:url,
+        pic:url
     })
     }).then(res=>res.json())
     .then(data=>{
@@ -62,12 +62,11 @@ const CreatePost = ()=>{
         }}>
 
             <input type="text" placeholder="Title"
-            value={title}
-            onChange={(e)=>setTitle(e.target.value)}
-            />
+             value={title}
+             onChange={(e)=>setTitle(e.target.value)}/>
             <input type="text" placeholder="Description"
             value={body}
-            onChange={(e)=>setBody(e.target.value)}
+             onChange={(e)=>setBody(e.target.value)}
             />
             <div className="file-field input-field">
             <div className="btn">

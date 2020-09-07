@@ -30,15 +30,16 @@ const Profile = ()=>{
             }}>
                 <div>
                     <img style={{width:"160px",height:"160px",borderRadius:"80px"}}
-                 src={require("./images/pic-1.jpg")}
+                  src={state?state.pic:"loading"}
                  alt="Profile img"/>
                 </div>
                 <div>
-        <h4>{state?state.name:"loading"}</h4>
+                <h4>{state?state.name:"loading"}</h4>
+                <h5>{state?state.email:"loading"}</h5>
                 <div style={{display:"flex",justifyContent:"space-between",width:"108%"}}>
-                    <h6>40 Posts</h6>
-                    <h6>40 followers</h6>
-                    <h6>40 following</h6>
+                    <h6>{mypics.length} Posts</h6>
+                    <h6>{state?state.followers.length:"0"} followers</h6>
+                    <h6>{state?state.following.length:"0"} following</h6>
                 </div>
                 </div>
             </div>
